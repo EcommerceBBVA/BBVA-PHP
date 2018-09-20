@@ -25,10 +25,11 @@ class BancomerApiDerivedResource extends BancomerApiResourceBase {
 		} else {
 			$id = count($this->cacheList) + 1;
 		}
+		/* TODO disable, we don'd need parse to a parent class
 		if (!$this->isResourceListed($id)) {
 			$resource->parent = $this;
 			$this->cacheList[$id] = $resource;
-		}
+		}*/
 	}
 	protected function getResource($id) {
 		$id = strtolower($id);
@@ -54,7 +55,7 @@ class BancomerApiDerivedResource extends BancomerApiResourceBase {
 	
 	public function add($params) {
 		BancomerConsole::trace('BancomerApiDerivedResource @add');
-		
+
 		// TODO: validate call when the parent has not a valid ID
 		$resource = parent::_create($this->resourceName, $params, array('parent' => $this));
 		$this->addResource($resource);
