@@ -196,9 +196,11 @@ abstract class BancomerApiResourceBase
             }
         }
 
+        /* TODO No need for now, parse to a class, return de array
         foreach ($data as $k => $v) {
             $k = strtolower($k);
 
+            BancomerConsole::trace('BancomerApiResourceBase K,V: '.$k.' , '.$v);
             $value = $this->processAttribute($k, $v);
 
             if ($k == 'id') {
@@ -217,7 +219,7 @@ abstract class BancomerApiResourceBase
             } else {
                 $this->serializableData[$k] = $value;
             }
-        }
+        }*/
         return $this;
     }
 
@@ -253,7 +255,8 @@ abstract class BancomerApiResourceBase
 
         // TODO: handle errors, not return anything
         $response = BancomerApiConnector::request('post', $resource->getUrl(), $params);
-        return $resource->refreshData($response);
+        // TODO disable for now return $resource->refreshData($response);
+        return $response;
     }
 
     protected function _retrieve($resourceName, $id, $props = null) {
@@ -267,7 +270,8 @@ abstract class BancomerApiResourceBase
         $resource->validateId($id);
 
         $response = BancomerApiConnector::request('get', $resource->getUrl());
-        return $resource->refreshData($response);
+        // TODO return $resource->refreshData($response);
+        return $response;
     }
 
     protected function _find($resourceName, $params, $props = null) {
@@ -292,14 +296,16 @@ abstract class BancomerApiResourceBase
 
         if (count($params)) {
             $response = BancomerApiConnector::request('put', $this->getUrl(), $params);
-            return $this->refreshData($response);
+            // TODO return $this->refreshData($response);
+            return $response;
         }
     }
 
     protected function _updateCharge($params) {
         if (count($params)) {
             $response = BancomerApiConnector::request('put', $this->getResourceUrl(), $params);
-            return $this->refreshData($response);
+            // TODO return $this->refreshData($response);
+            return $response;
         }
     }
 
