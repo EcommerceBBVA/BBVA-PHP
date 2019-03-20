@@ -3,13 +3,12 @@
 /**
  * Bancomer API v1 Client for PHP (version 1.0.0)
  * 
- * Copyright © Bancomer SAPI de C.V. All rights reserved.
+ * Copyright © BBVA Bancomer, S.A., Institución de Banca Múltiple, Grupo Financiero BBVA Bancomer All rights reserved.
  * http://www.openpay.mx/
  * soporte@openpay.mx
  */
-class BancomerTokenCharge extends BancomerApiResourceBase
+class BancomerCharge extends BancomerApiResourceBase
 {
-
     protected $affiliation_bbva;
     protected $amount;
     protected $currency;
@@ -32,7 +31,6 @@ class BancomerTokenCharge extends BancomerApiResourceBase
             return parent::_create($resource->resourceName, $params, array('parent' => $this));
         }
     }
-
     public function capture($params) {
         $resource = $this->derivedResources['captures'];
         if ($resource) {
@@ -43,15 +41,12 @@ class BancomerTokenCharge extends BancomerApiResourceBase
     public function get($param) {
         return $this->_getAttributes($param);
     }
-
 }
-    // ----------------------------------------------------------------------------
-    class BancomerTokenChargeList extends BancomerApiDerivedResource
-    {
-
-        public function create($params) {
-            return $this->add($params);
-        }
-
+// ----------------------------------------------------------------------------
+class BancomerChargeList extends BancomerApiDerivedResource
+{
+    public function create($params) {
+        return $this->add($params);
     }
+}
 ?>

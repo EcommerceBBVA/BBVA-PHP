@@ -5,8 +5,8 @@ El objetivo de este proyecto es proporcionar un framework reutilizable para
 interacturar con el API de Bancomer desde cualquier proyecto PHP.   
 
 -----------------------------------------------------------------------------
-Autor: Bancomer SAPI de C.V. (soporte@openpay.mx)
-       http://www.openpay.mx/
+Autor: BBVA Bancomer, S.A., Institución de Banca Múltiple, Grupo Financiero BBVA Bancomer (bbva_bancomer@eglobal.com.mx)
+       http://www.bancomer.com/
 -----------------------------------------------------------------------------
 
 

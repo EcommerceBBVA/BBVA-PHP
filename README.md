@@ -1,4 +1,4 @@
-![Bancomer PHP](http://www.openpay.mx/img/github/php.jpg)
+![Bancomer PHP](http://www.bancomer.com/img/github/php.jpg)
 
 PHP client for Bancomer API services (version 1.0.0)
 

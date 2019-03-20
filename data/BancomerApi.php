@@ -3,9 +3,9 @@
 /**
  * Bancomer API v1 Client for PHP (version 1.0.3)
  * 
- * Copyright © Bancomer SAPI de C.V. All rights reserved.
- * http://www.openpay.mx/
- * soporte@openpay.mx
+ * Copyright © BBVA Bancomer, S.A., Institución de Banca Múltiple, Grupo Financiero BBVA Bancomer All rights reserved.
+ * http://www.bancomer.com/
+ * bbva_bancomer@eglobal.com.mx
  */
 class Bancomer
 {
@@ -13,9 +13,9 @@ class Bancomer
     private static $instance = null;
     private static $id = '';
     private static $apiKey = '';
-    private static $apiEndpoint = 'https://api.openpay.mx/v1';
-    private static $apiSandboxEndpoint = 'https://sandbox-api.openpay.mx/v1';
-    private static $sandboxMode = true;
+    private static $apiEndpoint = 'https://api.ecommercebbva.com/v1';
+    private static $apiSandboxEndpoint = 'https://sand-api.ecommercebbva.com/v1';
+    private static $sandboxMode = false;
 
     public function __construct() {
         
