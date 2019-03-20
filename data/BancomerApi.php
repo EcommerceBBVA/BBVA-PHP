@@ -15,7 +15,7 @@ class Bancomer
     private static $apiKey = '';
     private static $apiEndpoint = 'https://api.ecommercebbva.com/v1';
     private static $apiSandboxEndpoint = 'https://sand-api.ecommercebbva.com/v1';
-    private static $sandboxMode = false;
+    private static $sandboxMode = true;
 
     public function __construct() {
         

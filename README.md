@@ -1,4 +1,4 @@
-![Bancomer PHP](http://www.bancomer.com/img/github/php.jpg)
+Bancomer PHP
 
 PHP client for Bancomer API services (version 1.0.0)
 
