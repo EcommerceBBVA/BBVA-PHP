@@ -2,9 +2,9 @@
 /**
  * Bancomer API v1 Client for PHP (version 1.0.0)
  * 
- * Copyright © Bancomer SAPI de C.V. All rights reserved.
- * http://www.openpay.mx/
- * soporte@openpay.mx
+ * Copyright © BBVA Bancomer, S.A., Institución de Banca Múltiple, Grupo Financiero BBVA Bancomer All rights reserved.
+ * http://www.bancomer.com/
+ * bbva_bancomer@eglobal.com.mx
  */
 
 if (!function_exists('curl_init')) {
@@ -25,7 +25,7 @@ require(dirname(__FILE__) . '/data/BancomerApiDerivedResource.php');
 require(dirname(__FILE__) . '/data/BancomerApi.php');
 
 require(dirname(__FILE__) . '/resources/BancomerCapture.php');
+require(dirname(__FILE__) . '/resources/BancomerCharge.php');
 require(dirname(__FILE__) . '/resources/BancomerRefund.php');
 require(dirname(__FILE__) . '/resources/BancomerToken.php');
-require(dirname(__FILE__) . '/resources/BancomerTokenCharge.php');
 ?>

@@ -1,6 +1,6 @@
 {
     "name": "bancomer/sdk",
-    "description": "This is a client implementing the payment services for Bancomer at openpay.mx",
+    "description": "This is a client implementing the payment services for Bancomer at bancomer.com",
     "type": "library",
     "version": "1.0.0",
     "minimum-stability": "stable",
@@ -8,8 +8,8 @@
     "authors": [
         {
             "name": "Bancomer",
-            "homepage": "http://www.openpay.mx/docs/libraries.html",
-            "email": "soporte@openpay.mx"
+            "homepage": "http://www.bancomer.com/docs/libraries.html",
+            "email": "bbva_bancomer@eglobal.com.mx"
         },
         {
             "name": "Federico Balderas",
@@ -18,7 +18,7 @@
         },
         {
             "name": "Manuel Guevara",
-            "email": "manuel.guevara@openpay.mx"
+            "email": "manuel.guevara@bancomer.com"
         }
     ],
     "require": {
