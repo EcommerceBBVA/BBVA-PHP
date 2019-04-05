@@ -119,7 +119,7 @@ Once configured the library, you can use it to interact with Bancomer API
 services. The first step is get an instance with the generator:
 
 ````php
-$bancomer = Bancomer::getInstance('moiep6umtcnanql3jrxp', 'sk_3433941e467c1055b178ce26348b0fac');
+$bancomer = Bancomer::getInstance('mptdggroasfcmqs8plpy', '***REMOVED***');
 ````
 
 In this example **$bancomer** will be an instance of a merchant (root), wich 
@@ -220,7 +220,7 @@ try {
 	// the following line will generate an error because the
 	// private key is empty. The exception generated will be
 	// a BancomerApiAuthError
-	$bancomer = Bancomer::getInstance('moiep6umtcnanql3jrxp', '');
+	$bancomer = Bancomer::getInstance('mptdggroasfcmqs8plpy', '');
 
 	$customer = $bancomer->customers->get('a9ualumwnrcxkl42l6mh');
  	$customer->name = 'Juan';
@@ -258,7 +258,7 @@ Examples
 
 Add a new customer to a merchant:
 ````php
-$bancomer = Bancomer::getInstance('moiep6umtcnanql3jrxp', 'sk_3433941e467c1055b178ce26348b0fac');
+$bancomer = Bancomer::getInstance('mptdggroasfcmqs8plpy', '***REMOVED***');
 
 $customerData = array(
 	'name' => 'Teofilo',
@@ -282,7 +282,7 @@ $customerData = array(
 
 Add a token:
 ````php
-$bancomer = Bancomer::getInstance('moiep6umtcnanql3jrxp', 'sk_3433941e467c1055b178ce26348b0fac');
+$bancomer = Bancomer::getInstance('mptdggroasfcmqs8plpy', '***REMOVED***');
 
 $tokenData = array(
 	'holder_name' => 'Luis Pérez',
@@ -302,9 +302,9 @@ $tokenData = array(
 $token = $bancomer->tokens->add($tokenData);
 ````
 
-Get a card:
+Get a token:
 ````php
-$bancomer = Bancomer::getInstance('moiep6umtcnanql3jrxp', 'sk_3433941e467c1055b178ce26348b0fac');
+$bancomer = Bancomer::getInstance('mptdggroasfcmqs8plpy', '***REMOVED***');
 
 $token = $bancomer->tokens->get('k9pn8qtsvr7k7gxoq1r5');
 ````
@@ -315,10 +315,10 @@ $token = $bancomer->tokens->get('k9pn8qtsvr7k7gxoq1r5');
 
 Make a charge on a merchant:
 ````php
-$bancomer = Bancomer::getInstance('moiep6umtcnanql3jrxp', 'sk_3433941e467c1055b178ce26348b0fac');
+$bancomer = Bancomer::getInstance('mptdggroasfcmqs8plpy', '***REMOVED***');
 
 $chargeData = array(
-	'affiliation_bbva' => '78494',
+	'affiliation_bbva' => '781500',
 	'amount' => 100,
 	'currency' => 'MXN',
 	'order_id' => 'ORDEN-00071',
@@ -335,11 +335,8 @@ $chargeData = array(
 			'state' => 'Querétaro',
 			'city' => 'Querétaro.',
 			'country_code' => 'MX')),
-	'customer_language' => 'SP',
-	'use_3d_secure' => 'FALSE',
-	'capture' => 'FALSE',
-	'token' => 'kqgykn96i7bcs1wwhvgw',
 	'description' => 'Cargo inicial a mi merchant'
+	'redirect_url' => 'https://sand-portal.ecommercebbva.com/'
 	);
 
 $charge = $bancomer->charges->create($chargeData);
@@ -347,14 +344,14 @@ $charge = $bancomer->charges->create($chargeData);
 	
 Get a charge:
 ````php
-$bancomer = Bancomer::getInstance('moiep6umtcnanql3jrxp', 'sk_3433941e467c1055b178ce26348b0fac');
+$bancomer = Bancomer::getInstance('mptdggroasfcmqs8plpy', '***REMOVED***');
 
 $charge = $bancomer->charges->get('tvyfwyfooqsmfnaprsuk');
 ````
 	
 Make a capture:
 ````php
-$bancomer = Bancomer::getInstance('moiep6umtcnanql3jrxp', 'sk_3433941e467c1055b178ce26348b0fac');
+$bancomer = Bancomer::getInstance('mptdggroasfcmqs8plpy', '***REMOVED***');
 
 $captureData = array('amount' => 150.00 );
 
@@ -364,7 +361,7 @@ $charge->capture($captureData);
 	
 Make a refund:
 ````php
-$bancomer = Bancomer::getInstance('moiep6umtcnanql3jrxp', 'sk_3433941e467c1055b178ce26348b0fac');
+$bancomer = Bancomer::getInstance('mptdggroasfcmqs8plpy', '***REMOVED***');
 
 $refundData = array('description' => 'Devolución' );
 
