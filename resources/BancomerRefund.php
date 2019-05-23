@@ -8,8 +8,8 @@
  */
 
 class BancomerRefund extends BancomerApiResourceBase {
-	protected function getResourceUrlName($p = true){
-		return parent::getResourceUrlName(false);
-	}
+    protected function getResourceUrlName($p = true){
+        return parent::getResourceUrlName(false);
+    }
 }
 ?>

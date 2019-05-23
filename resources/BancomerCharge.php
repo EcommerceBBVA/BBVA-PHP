@@ -31,6 +31,7 @@ class BancomerCharge extends BancomerApiResourceBase
             return parent::_create($resource->resourceName, $params, array('parent' => $this));
         }
     }
+
     public function capture($params) {
         $resource = $this->derivedResources['captures'];
         if ($resource) {
@@ -38,8 +39,8 @@ class BancomerCharge extends BancomerApiResourceBase
         }
     }
 
-    public function get($param) {
-        return $this->_getAttributes($param);
+    public function update($params) {
+        return $this->_updateCharge($params);
     }
 }
 // ----------------------------------------------------------------------------
