@@ -2,7 +2,7 @@
 
 /**
  * Bancomer API v1 Client for PHP (version 1.0.0)
- * 
+ *
  * Copyright © BBVA Bancomer, S.A., Institución de Banca Múltiple, Grupo Financiero BBVA Bancomer All rights reserved.
  * http://www.bancomer.com/
  * bbva_bancomer@eglobal.com.mx
@@ -196,11 +196,9 @@ abstract class BancomerApiResourceBase
             }
         }
 
-        /* TODO No need for now, parse to a class, return de array
         foreach ($data as $k => $v) {
             $k = strtolower($k);
 
-            BancomerConsole::trace('BancomerApiResourceBase K,V: '.$k.' , '.$v);
             $value = $this->processAttribute($k, $v);
 
             if ($k == 'id') {
@@ -219,7 +217,7 @@ abstract class BancomerApiResourceBase
             } else {
                 $this->serializableData[$k] = $value;
             }
-        }*/
+        }
         return $this;
     }
 
@@ -255,8 +253,7 @@ abstract class BancomerApiResourceBase
 
         // TODO: handle errors, not return anything
         $response = BancomerApiConnector::request('post', $resource->getUrl(), $params);
-        // TODO disable for now return $resource->refreshData($response);
-        return $response;
+        return $resource->refreshData($response);
     }
 
     protected function _retrieve($resourceName, $id, $props = null) {
@@ -270,8 +267,7 @@ abstract class BancomerApiResourceBase
         $resource->validateId($id);
 
         $response = BancomerApiConnector::request('get', $resource->getUrl());
-        // TODO return $resource->refreshData($response);
-        return $response;
+        return $resource->refreshData($response);
     }
 
     protected function _find($resourceName, $params, $props = null) {
@@ -296,16 +292,14 @@ abstract class BancomerApiResourceBase
 
         if (count($params)) {
             $response = BancomerApiConnector::request('put', $this->getUrl(), $params);
-            // TODO return $this->refreshData($response);
-            return $response;
+            return $this->refreshData($response);
         }
     }
 
     protected function _updateCharge($params) {
         if (count($params)) {
             $response = BancomerApiConnector::request('put', $this->getResourceUrl(), $params);
-            // TODO return $this->refreshData($response);
-            return $response;
+            return $this->refreshData($response);
         }
     }
 
