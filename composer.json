@@ -7,18 +7,9 @@
     "license": "Apache-2.0",
     "authors": [
         {
-            "name": "Bancomer",
-            "homepage": "http://www.bancomer.com/docs/libraries.html",
-            "email": "bbva_bancomer@eglobal.com.mx"
-        },
-        {
-            "name": "Federico Balderas",
-            "homepage": "http://foograde.com",
-            "email": "federico.balderas@foograde.com"
-        },
-        {
-            "name": "Manuel Guevara",
-            "email": "manuel.guevara@bancomer.com"
+            "name": "BBVA",
+            "homepage": "http://www.bbva.mx/",
+            "email": "plataformas.especiales.mx@bbva.com"
         }
     ],
     "require": {
@@ -30,7 +21,7 @@
         "phpunit/phpunit": "4.8.*"
     },
     "support": {
-        "issues": "https://github.com/open-pay/openpay-php/issues"
+        "issues": "https://github.com/EcommerceBBVA/BBVA-PHP/issues"
     },
     "autoload": {
         "psr-0": { "Bancomer": "" }

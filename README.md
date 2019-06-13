@@ -102,7 +102,7 @@ Bancomer::setProductionMode(true);
 ````
 Also you can use environment variables for this purpose:
 ````
-SetEnv OPENPAY_PRODUCTION_MODE true
+SetEnv BBVA_PRODUCTION_MODE true
 ````
 
 If its necessary, you can use the method **Bancomer::getProductionMode()** to 
