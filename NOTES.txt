@@ -68,8 +68,7 @@ Modo Sandbox
 Cuando se está realizando la implementacion es posible que se desee hacer 
 pruebas antes de que se hagan cobros normales a una tarjeta de crédito, para 
 ello es posible utilizar el método Bancomer::setSandboxMode() el cual nos 
-ayudará a activar o desactivar el modo de prueba en las peticiones que se hagan
-a OpenPay.
+ayudará a activar o desactivar el modo de prueba en las peticiones que se hagan.
 
 	 Bancomer::setSandboxMode(FLAG);
 
