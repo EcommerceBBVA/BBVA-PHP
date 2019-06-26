@@ -1,13 +1,13 @@
 <?php
 
 /**
- * Bancomer API v1 Client for PHP (version 1.0.0)
+ * Bbva API v1 Client for PHP (version 1.0.0)
  * 
- * Copyright © BBVA Bancomer, S.A., Institución de Banca Múltiple, Grupo Financiero BBVA Bancomer All rights reserved.
- * http://www.bancomer.com/
- * bbva_bancomer@eglobal.com.mx
+ * Copyright © BBVA, S.A., Institución de Banca Múltiple, Grupo Financiero BBVA All rights reserved.
+ * http://www.bbva.com/
+ * bbva@eglobal.com.mx
  */
-class BancomerApiError extends Exception
+class BbvaApiError extends Exception
 {
 
     protected $description;
@@ -54,25 +54,25 @@ class BancomerApiError extends Exception
 }
 
 // Authentication related Errors
-class BancomerApiAuthError extends BancomerApiError
+class BbvaApiAuthError extends BbvaApiError
 {
     
 }
 
 // Request related Error
-class BancomerApiRequestError extends BancomerApiError
+class BbvaApiRequestError extends BbvaApiError
 {
     
 }
 
 // Transaction related Errors
-class BancomerApiTransactionError extends BancomerApiError
+class BbvaApiTransactionError extends BbvaApiError
 {
     
 }
 
 // Connection related Errors
-class BancomerApiConnectionError extends BancomerApiError
+class BbvaApiConnectionError extends BbvaApiError
 {
     
 }
