@@ -1,6 +1,6 @@
 <?php
 
-class BancomerCustomer extends BancomerApiResourceBase {
+class BbvaCustomer extends BbvaApiResourceBase {
 	protected $status;
 	protected $creation_date;
 	protected $balance;
@@ -20,6 +20,6 @@ class BancomerCustomer extends BancomerApiResourceBase {
 	}
 }
 // ----------------------------------------------------------------------------
-class BancomerCustomerList extends BancomerApiDerivedResource {
+class BbvaCustomerList extends BbvaApiDerivedResource {
 }
 ?>

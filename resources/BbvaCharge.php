@@ -1,12 +1,12 @@
 <?php
 
 /**
- * Bancomer API v1 Client for PHP (version 1.0.0)
+ * Bbva API v1 Client for PHP (version 1.0.0)
  * 
- * Copyright © BBVA Bancomer, S.A., Institución de Banca Múltiple, Grupo Financiero BBVA Bancomer All rights reserved.
+ * Copyright © BBVA, S.A., Institución de Banca Múltiple, Grupo Financiero BBVA All rights reserved.
  * plataformas.especiales.mx@bbva.com
  */
-class BancomerCharge extends BancomerApiResourceBase
+class BbvaCharge extends BbvaApiResourceBase
 {
     protected $affiliation_bbva;
     protected $amount;
@@ -43,7 +43,7 @@ class BancomerCharge extends BancomerApiResourceBase
     }
 }
 // ----------------------------------------------------------------------------
-class BancomerChargeList extends BancomerApiDerivedResource
+class BbvaChargeList extends BbvaApiDerivedResource
 {
     public function create($params) {
         return $this->add($params);

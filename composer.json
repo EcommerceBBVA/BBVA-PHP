@@ -1,6 +1,6 @@
 {
-    "name": "bancomer/sdk",
-    "description": "This is a client implementing the payment services for Bancomer at bancomer.com",
+    "name": "bbva/sdk",
+    "description": "This is a client implementing the payment services for Bbva at bbva.com",
     "type": "library",
     "version": "1.0.0",
     "minimum-stability": "stable",
@@ -24,6 +24,6 @@
         "issues": "https://github.com/EcommerceBBVA/BBVA-PHP/issues"
     },
     "autoload": {
-        "psr-0": { "Bancomer": "" }
+        "psr-0": { "Bbva": "" }
     }
 }

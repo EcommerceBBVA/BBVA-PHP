@@ -1,13 +1,13 @@
 <?php
 
 /**
- * Bancomer API v1 Client for PHP (version 1.0.0)
+ * Bbva API v1 Client for PHP (version 1.0.0)
  * 
- * Copyright © BBVA Bancomer, S.A., Institución de Banca Múltiple, Grupo Financiero BBVA Bancomer All rights reserved.
- * http://www.bancomer.com/
- * bbva_bancomer@eglobal.com.mx
+ * Copyright © BBVA, S.A., Institución de Banca Múltiple, Grupo Financiero BBVA All rights reserved.
+ * http://www.bbva.com/
+ * bbva@eglobal.com.mx
  */
-class BancomerApiConnector
+class BbvaApiConnector
 {
 
     private static $instance;
@@ -28,40 +28,40 @@ class BancomerApiConnector
     // ------------------  PRIVATE FUNCTIONS  ------------------
 
     private function _request($method, $url, $params) {
-        if (!class_exists('Bancomer')) {
-            throw new BancomerApiError("Library install error, there are some missing classes");
+        if (!class_exists('Bbva')) {
+            throw new BbvaApiError("Library install error, there are some missing classes");
         }
-        BancomerConsole::trace('BancomerApiConnector @_request');
+        BbvaConsole::trace('BbvaApiConnector @_request');
 
-        $myId = Bancomer::getId();
+        $myId = Bbva::getId();
         if (!$myId) {
-            throw new BancomerApiAuthError("Empty or no Merchant ID provided");
+            throw new BbvaApiAuthError("Empty or no Merchant ID provided");
         } else if (!preg_match('/^[a-z0-9]{20}$/i', $myId)) {
-            throw new BancomerApiAuthError("Invalid Merchant ID '".$myId."'");
+            throw new BbvaApiAuthError("Invalid Merchant ID '".$myId."'");
         }
 
-        $myApiKey = Bancomer::getApiKey();
+        $myApiKey = Bbva::getApiKey();
         if (!$myApiKey) {
-            throw new BancomerApiAuthError("Empty or no Private Key provided");
+            throw new BbvaApiAuthError("Empty or no Private Key provided");
         } else if (!preg_match('/^sk_[a-z0-9]{32}$/i', $myApiKey)) {
-            throw new BancomerApiAuthError("Invalid Private Key '".$myApiKey."'");
+            throw new BbvaApiAuthError("Invalid Private Key '".$myApiKey."'");
         }
 
-        $absUrl = Bancomer::getEndpointUrl();
+        $absUrl = Bbva::getEndpointUrl();
         if (!$absUrl) {
-            throw new BancomerApiConnectionError("No API endpoint set");
+            throw new BbvaApiConnectionError("No API endpoint set");
         }
         $absUrl .= '/'.$myId.$url;
 
         //$params = self::_encodeObjects($params);
-        $headers = array('User-Agent: BancomerPhp/v1');
+        $headers = array('User-Agent: BbvaPhp/v1');
 
         list($rbody, $rcode) = $this->_curlRequest($method, $absUrl, $headers, $params, $myApiKey);
         return $this->interpretResponse($rbody, $rcode);
     }
 
     private function _curlRequest($method, $absUrl, $headers, $params, $auth = null) {
-        BancomerConsole::trace('BancomerApiConnector @_curlRequest');
+        BbvaConsole::trace('BbvaApiConnector @_curlRequest');
 
         $opts = array();
         if (!is_array($headers)) {
@@ -93,7 +93,7 @@ class BancomerApiConnector
                 $absUrl = $absUrl.'?'.$encoded;
             }
         } else {
-            throw new BancomerApiError("Invalid request method '".$method."'");
+            throw new BbvaApiError("Invalid request method '".$method."'");
         }
 
 
@@ -111,7 +111,7 @@ class BancomerApiConnector
         $curl = curl_init();
         curl_setopt_array($curl, $opts);
 
-        BancomerConsole::debug('Executing cURL: '.strtoupper($method).' > '.$absUrl);
+        BbvaConsole::debug('Executing cURL: '.strtoupper($method).' > '.$absUrl);
 
         $rbody = curl_exec($curl);
         $errorCode = curl_errno($curl);
@@ -125,7 +125,7 @@ class BancomerApiConnector
         }
 
         if ($rbody === false) {
-            BancomerConsole::error('cURL request error: '.curl_errno($curl));
+            BbvaConsole::error('cURL request error: '.curl_errno($curl));
             $message = curl_error($curl);
             $errorCode = curl_errno($curl);
             curl_close($curl);
@@ -137,11 +137,11 @@ class BancomerApiConnector
         curl_close($curl);
 
         if (mb_detect_encoding($rbody, 'UTF-8', true) != 'UTF-8') {
-            BancomerConsole::warn('Response body is not an UTF-8 string');
+            BbvaConsole::warn('Response body is not an UTF-8 string');
         }
 
-        BancomerConsole::debug('cURL body: '.$rbody);
-        BancomerConsole::debug('cURL code: '.$rcode);
+        BbvaConsole::debug('cURL body: '.$rbody);
+        BbvaConsole::debug('cURL code: '.$rcode);
 
         return array($rbody, $rcode);
     }
@@ -167,7 +167,7 @@ class BancomerApiConnector
             }
         }
         $string = implode("&", $r);
-        BancomerConsole::debug('Query string: '.$string);
+        BbvaConsole::debug('Query string: '.$string);
         return $string;
     }
 
@@ -176,12 +176,12 @@ class BancomerApiConnector
         if (mb_detect_encoding($encoded, 'UTF-8', true) != 'UTF-8') {
             $encoded = utf8_encode($encoded);
         }
-        BancomerConsole::debug('JSON UTF8 string: '.$encoded);
+        BbvaConsole::debug('JSON UTF8 string: '.$encoded);
         return $encoded;
     }
 
     private function interpretResponse($responseBody, $responseCode) {
-        BancomerConsole::trace('BancomerApiConnector @interpretResponse');
+        BbvaConsole::trace('BbvaApiConnector @interpretResponse');
         try {
             // return json as an array NOT an object
             if (!empty($responseBody)) {
@@ -190,11 +190,11 @@ class BancomerApiConnector
                 $traslatedResponse = array();
             }
         } catch (Exception $e) {
-            throw new BancomerApiRequestError("Invalid response: ".$responseBody, $responseCode);
+            throw new BbvaApiRequestError("Invalid response: ".$responseBody, $responseCode);
         }
 
         if ($responseCode < 200 || $responseCode >= 300) {
-            BancomerConsole::error('Request finished with HTTP code '.$responseCode);
+            BbvaConsole::error('Request finished with HTTP code '.$responseCode);
             $this->handleRequestError($responseBody, $responseCode, $traslatedResponse);
             return array();
         }
@@ -203,7 +203,7 @@ class BancomerApiConnector
 
     private function handleRequestError($responseBody, $responseCode, $traslatedResponse) {
         if (!is_array($traslatedResponse) || !isset($traslatedResponse['error_code'])) {
-            throw new BancomerApiRequestError("Invalid response body received from Bancomer API Server");
+            throw new BbvaApiRequestError("Invalid response body received from Bbva API Server");
         }
 
         $message = isset($traslatedResponse['description']) ? $traslatedResponse['description'] : 'No description';
@@ -217,7 +217,7 @@ class BancomerApiConnector
             // Unauthorized - Forbidden
             case 401:
             case 403:
-                throw new BancomerApiAuthError($message, $error, $category, $request_id, $responseCode, $fraud_rules);
+                throw new BbvaApiAuthError($message, $error, $category, $request_id, $responseCode, $fraud_rules);
                 break;
 
             // Bad Request - Request Entity too large - Request Entity too large - Internal Server Error - Service Unavailable
@@ -227,7 +227,7 @@ class BancomerApiConnector
             case 422:
             case 500:
             case 503:
-                throw new BancomerApiRequestError($message, $error, $category, $request_id, $responseCode, $fraud_rules);
+                throw new BbvaApiRequestError($message, $error, $category, $request_id, $responseCode, $fraud_rules);
                 break;
 
             // Payment Required - Conflict - Preconditon Failed - Unprocessable Entity - Locked
@@ -235,12 +235,12 @@ class BancomerApiConnector
             case 409:
             case 412:
             case 423:
-                throw new BancomerApiTransactionError($message, $error, $category, $request_id, $responseCode, $fraud_rules);
+                throw new BbvaApiTransactionError($message, $error, $category, $request_id, $responseCode, $fraud_rules);
                 break;
 
             // Not Found
             default:
-                throw new BancomerApiError($message, $error, $category, $request_id, $responseCode, $fraud_rules);
+                throw new BbvaApiError($message, $error, $category, $request_id, $responseCode, $fraud_rules);
         }
     }
 
@@ -249,21 +249,21 @@ class BancomerApiConnector
             case CURLE_COULDNT_CONNECT:
             case CURLE_COULDNT_RESOLVE_HOST:
             case CURLE_OPERATION_TIMEOUTED:
-                $msg = "Could not connect to Bancomer.  Please check your internet connection and try again";
+                $msg = "Could not connect to Bbva.  Please check your internet connection and try again";
                 break;
             default:
-                $msg = "Unexpected error connecting to Bancomer";
+                $msg = "Unexpected error connecting to Bbva";
         }
 
         $msg .= " (Network error ".$errorCode.")";
-        throw new BancomerApiConnectionError($msg);
+        throw new BbvaApiConnectionError($msg);
     }
 
     // ---------------------------------------------------------
     // ------------------  PUBLIC FUNCTIONS  -------------------
 
     public static function request($method, $url, $params = null) {
-        BancomerConsole::trace('BancomerApiConnector @request '.$url);
+        BbvaConsole::trace('BbvaApiConnector @request '.$url);
 
         if (!$params) {
             $params = array();
@@ -271,7 +271,7 @@ class BancomerApiConnector
 
         $method = strtolower($method);
         if (!in_array($method, array('get', 'post', 'delete', 'put'))) {
-            throw new BancomerApiError("Invalid request method '".$method."'");
+            throw new BbvaApiError("Invalid request method '".$method."'");
         }
 
         $connector = self::getInstance();

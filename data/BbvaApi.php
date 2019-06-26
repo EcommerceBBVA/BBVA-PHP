@@ -1,13 +1,13 @@
 <?php
 
 /**
- * Bancomer API v1 Client for PHP (version 1.0.3)
+ * Bbva API v1 Client for PHP (version 1.0.3)
  * 
- * Copyright © BBVA Bancomer, S.A., Institución de Banca Múltiple, Grupo Financiero BBVA Bancomer All rights reserved.
- * http://www.bancomer.com/
- * bbva_bancomer@eglobal.com.mx
+ * Copyright © BBVA, S.A., Institución de Banca Múltiple, Grupo Financiero BBVA All rights reserved.
+ * http://www.bbva.mx/
+ * bbva@eglobal.com.mx
  */
-class Bancomer
+class Bbva
 {
 
     private static $instance = null;
@@ -28,7 +28,7 @@ class Bancomer
         if ($apiKey != '') {
             self::setApiKey($apiKey);
         }
-        $instance = BancomerApi::getInstance(null);
+        $instance = BbvaApi::getInstance(null);
         return $instance;
     }
 
@@ -91,7 +91,7 @@ class Bancomer
 }
 
 // ----------------------------------------------------------------------------
-class BancomerApi extends BancomerApiResourceBase
+class BbvaApi extends BbvaApiResourceBase
 {
 
     protected $derivedResources = array('Customer' => array(),

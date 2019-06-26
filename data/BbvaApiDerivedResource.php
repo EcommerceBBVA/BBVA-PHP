@@ -1,13 +1,13 @@
 <?php
 /**
- * Bancomer API v1 Client for PHP (version 1.0.0)
+ * Bbva API v1 Client for PHP (version 1.0.0)
  *
- * Copyright © Bancomer SAPI de C.V. All rights reserved.
- * http://www.bancomer.mx/
- * soporte@bancomer.mx
+ * Copyright © Bbva SAPI de C.V. All rights reserved.
+ * http://www.bbva.mx/
+ * soporte@bbva.mx
  */
 
-class BancomerApiDerivedResource extends BancomerApiResourceBase
+class BbvaApiDerivedResource extends BbvaApiResourceBase
 {
     private $cacheList = array();
 
@@ -64,7 +64,7 @@ class BancomerApiDerivedResource extends BancomerApiResourceBase
 
     public function add($params)
     {
-        BancomerConsole::trace('BancomerApiDerivedResource @add');
+        BbvaConsole::trace('BbvaApiDerivedResource @add');
 
         // TODO: validate call when the parent has not a valid ID
         $resource = parent::_create($this->resourceName, $params, array('parent' => $this));
@@ -74,7 +74,7 @@ class BancomerApiDerivedResource extends BancomerApiResourceBase
 
     public function get($id)
     {
-        BancomerConsole::trace('BancomerApiDerivedResource @get');
+        BbvaConsole::trace('BbvaApiDerivedResource @get');
 
         if ($this->isResourceListed($id)) {
             return $this->getResource($id);
@@ -86,7 +86,7 @@ class BancomerApiDerivedResource extends BancomerApiResourceBase
 
     public function getList($params)
     {
-        BancomerConsole::trace('BancomerApiDerivedResource @find');
+        BbvaConsole::trace('BbvaApiDerivedResource @find');
 
         $list = parent::_find($this->resourceName, $params, array('parent' => $this));
         foreach ($list as $resource) {
