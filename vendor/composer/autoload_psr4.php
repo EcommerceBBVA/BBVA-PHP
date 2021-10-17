@@ -12,5 +12,5 @@ return array(
     'Symfony\\Component\\Yaml\\' => array($vendorDir . '/symfony/yaml'),
     'Prophecy\\' => array($vendorDir . '/phpspec/prophecy/src/Prophecy'),
     'Doctrine\\Instantiator\\' => array($vendorDir . '/doctrine/instantiator/src/Doctrine/Instantiator'),
-    'BBVA\\' => array($baseDir . '/bbva'),
+    'BBVA\\' => array($baseDir . '/Bbva'),
 );

@@ -67,7 +67,7 @@ class ComposerStaticInitcbdb03fb748f9c9ebf4864a3595ca515
         ),
         'BBVA\\' => 
         array (
-            0 => __DIR__ . '/../..' . '/bbva',
+            0 => __DIR__ . '/../..' . '/Bbva',
         ),
     );
 
