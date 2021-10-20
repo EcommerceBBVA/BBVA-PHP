@@ -88,14 +88,14 @@ abstract class BbvaApiResourceBase
         if ($this->isResource($resourceName)) {
             // check is its a resource list
             if ($this->isList($v)) {
-                $list = BbvaApiDerivedResource::getInstance($resourceName);
+                $list = BbvaApiDerivedResource::getInstance("BBVA\\Resources\\". $resourceName);
                 $list->parent = $this;
                 foreach ($v as $index => $objData) {
                     $list->add($objData);
                 }
                 $value = $list;
             } else {
-                $resource = self::getInstance($resourceName);
+                $resource = self::getInstance("BBVA\\Resources\\".$resourceName);
                 $resource->parent = $this;
                 $resource->refreshData($v);
                 $value = $resource;
@@ -132,7 +132,7 @@ abstract class BbvaApiResourceBase
         BbvaApiConsole::trace('BbvaApiResourceBase @isResource > '.$resourceName);
 // 		$resourceName = $this->getResourceName($name);
 
-        return class_exists($resourceName);
+        return class_exists("BBVA\\Resources\\".$resourceName);
     }
 
     private function registerInParent($resource) {
@@ -225,7 +225,8 @@ abstract class BbvaApiResourceBase
     }
 
     protected function getResourceUrlName($pluralize = true) {
-        $class = $this->resourceName;
+        $ResourceUrl = explode('\\', $this->resourceName);
+        $class = $ResourceUrl[sizeof($ResourceUrl)-1];
         if (substr($class, 0, strlen('Bbva')) == 'Bbva') {
             $class = substr($class, strlen('Bbva'));
         }

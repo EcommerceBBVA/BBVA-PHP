@@ -65,7 +65,7 @@ class BbvaApiDerivedResource extends BbvaApiResourceBase
 
     public function add($params)
     {
-        BbvaConsole::trace('BbvaApiDerivedResource @add');
+        BbvaApiConsole::trace('BbvaApiDerivedResource @add');
 
         // TODO: validate call when the parent has not a valid ID
         $resource = parent::_create($this->resourceName, $params, array('parent' => $this));
@@ -75,7 +75,7 @@ class BbvaApiDerivedResource extends BbvaApiResourceBase
 
     public function get($id)
     {
-        BbvaConsole::trace('BbvaApiDerivedResource @get');
+        BbvaApiConsole::trace('BbvaApiDerivedResource @get');
 
         if ($this->isResourceListed($id)) {
             return $this->getResource($id);
@@ -87,7 +87,7 @@ class BbvaApiDerivedResource extends BbvaApiResourceBase
 
     public function getList($params)
     {
-        BbvaConsole::trace('BbvaApiDerivedResource @find');
+        BbvaApiConsole::trace('BbvaApiDerivedResource @find');
 
         $list = parent::_find($this->resourceName, $params, array('parent' => $this));
         foreach ($list as $resource) {

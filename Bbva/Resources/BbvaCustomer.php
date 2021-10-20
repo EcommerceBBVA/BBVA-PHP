@@ -23,6 +23,4 @@ class BbvaCustomer extends BbvaApiResourceBase {
 	}
 }
 // ----------------------------------------------------------------------------
-class BbvaCustomerList extends BbvaApiDerivedResource {
-}
 ?>
