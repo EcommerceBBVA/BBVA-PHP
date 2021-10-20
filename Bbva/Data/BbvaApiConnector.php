@@ -15,11 +15,13 @@ class BbvaApiConnector
     private static $instance;
     private $apiKey;
 
-    private function __construct() {
+    private function __construct()
+    {
         $this->apiKey = '';
     }
 
-    private static function getInstance() {
+    private static function getInstance()
+    {
         if (!self::$instance) {
             self::$instance = new self();
         }
@@ -29,8 +31,9 @@ class BbvaApiConnector
     // ---------------------------------------------------------
     // ------------------  PRIVATE FUNCTIONS  ------------------
 
-    private function _request($method, $url, $params) {
-        if (!class_exists('Bbva')) {
+    private function _request($method, $url, $params)
+    {
+        if (!class_exists('BBVA\\Data\\Bbva')) {
             throw new BbvaApiError("Library install error, there are some missing classes");
         }
         BbvaApiConsole::trace('BbvaApiConnector @_request');
@@ -39,21 +42,21 @@ class BbvaApiConnector
         if (!$myId) {
             throw new BbvaApiAuthError("Empty or no Merchant ID provided");
         } else if (!preg_match('/^[a-z0-9]{20}$/i', $myId)) {
-            throw new BbvaApiAuthError("Invalid Merchant ID '".$myId."'");
+            throw new BbvaApiAuthError("Invalid Merchant ID '" . $myId . "'");
         }
 
         $myApiKey = Bbva::getApiKey();
         if (!$myApiKey) {
             throw new BbvaApiAuthError("Empty or no Private Key provided");
         } else if (!preg_match('/^sk_[a-z0-9]{32}$/i', $myApiKey)) {
-            throw new BbvaApiAuthError("Invalid Private Key '".$myApiKey."'");
+            throw new BbvaApiAuthError("Invalid Private Key '" . $myApiKey . "'");
         }
 
         $absUrl = Bbva::getEndpointUrl();
         if (!$absUrl) {
             throw new BbvaApiConnectionError("No API endpoint set");
         }
-        $absUrl .= '/'.$myId.$url;
+        $absUrl .= '/' . $myId . $url;
 
         //$params = self::_encodeObjects($params);
         $headers = array('User-Agent: BbvaPhp/v1');
@@ -62,7 +65,8 @@ class BbvaApiConnector
         return $this->interpretResponse($rbody, $rcode);
     }
 
-    private function _curlRequest($method, $absUrl, $headers, $params, $auth = null) {
+    private function _curlRequest($method, $absUrl, $headers, $params, $auth = null)
+    {
         BbvaApiConsole::trace('BbvaApiConnector @_curlRequest');
 
         $opts = array();
@@ -74,28 +78,28 @@ class BbvaApiConnector
             $opts[CURLOPT_HTTPGET] = 1;
             if (count($params) > 0) {
                 $encoded = $this->encodeToQueryString($params);
-                $absUrl = $absUrl.'?'.$encoded;
+                $absUrl = $absUrl . '?' . $encoded;
             }
         } else if ($method == 'post') {
             $data = $this->encodeToJson($params);
             $opts[CURLOPT_POST] = 1;
             $opts[CURLOPT_POSTFIELDS] = $data;
             array_push($headers, 'Content-Type: application/json');
-            array_push($headers, 'Content-Length: '.strlen($data));
+            array_push($headers, 'Content-Length: ' . strlen($data));
         } else if ($method == 'put') {
             $data = $this->encodeToJson($params);
             $opts[CURLOPT_CUSTOMREQUEST] = 'PUT';
             $opts[CURLOPT_POSTFIELDS] = $data;
             array_push($headers, 'Content-Type: application/json');
-            array_push($headers, 'Content-Length: '.strlen($data));
+            array_push($headers, 'Content-Length: ' . strlen($data));
         } else if ($method == 'delete') {
             $opts[CURLOPT_CUSTOMREQUEST] = 'DELETE';
             if (count($params) > 0) {
                 $encoded = $this->encodeToQueryString($params);
-                $absUrl = $absUrl.'?'.$encoded;
+                $absUrl = $absUrl . '?' . $encoded;
             }
         } else {
-            throw new BbvaApiError("Invalid request method '".$method."'");
+            throw new BbvaApiError("Invalid request method '" . $method . "'");
         }
 
 
@@ -107,13 +111,13 @@ class BbvaApiConnector
         $opts[CURLOPT_SSL_VERIFYPEER] = TRUE;
 
         if ($auth) {
-            $opts[CURLOPT_USERPWD] = $auth.':';
+            $opts[CURLOPT_USERPWD] = $auth . ':';
         }
 
         $curl = curl_init();
         curl_setopt_array($curl, $opts);
 
-        BbvaApiConsole::debug('Executing cURL: '.strtoupper($method).' > '.$absUrl);
+        BbvaApiConsole::debug('Executing cURL: ' . strtoupper($method) . ' > ' . $absUrl);
 
         $rbody = curl_exec($curl);
         $errorCode = curl_errno($curl);
@@ -122,12 +126,12 @@ class BbvaApiConnector
         // retry the request by using the CA certificates bundle
         // CURLE_SSL_CACERT || CURLE_SSL_CACERT_BADFILE
         if ($errorCode == 60 || $errorCode == 77) {
-            curl_setopt($curl, CURLOPT_CAINFO, dirname(__FILE__).'/cacert.pem');
+            curl_setopt($curl, CURLOPT_CAINFO, dirname(__FILE__) . '/cacert.pem');
             $rbody = curl_exec($curl);
         }
 
         if ($rbody === false) {
-            BbvaApiConsole::error('cURL request error: '.curl_errno($curl));
+            BbvaApiConsole::error('cURL request error: ' . curl_errno($curl));
             $message = curl_error($curl);
             $errorCode = curl_errno($curl);
             curl_close($curl);
@@ -142,13 +146,14 @@ class BbvaApiConnector
             BbvaApiConsole::warn('Response body is not an UTF-8 string');
         }
 
-        BbvaApiConsole::debug('cURL body: '.$rbody);
-        BbvaApiConsole::debug('cURL code: '.$rcode);
+        BbvaApiConsole::debug('cURL body: ' . $rbody);
+        BbvaApiConsole::debug('cURL code: ' . $rcode);
 
         return array($rbody, $rcode);
     }
 
-    private function encodeToQueryString($arr, $prefix = null) {
+    private function encodeToQueryString($arr, $prefix = null)
+    {
         if (!is_array($arr))
             return $arr;
 
@@ -158,31 +163,33 @@ class BbvaApiConnector
                 continue;
 
             if ($prefix && $k && !is_int($k))
-                $k = $prefix."[".$k."]";
+                $k = $prefix . "[" . $k . "]";
             else if ($prefix)
-                $k = $prefix."[]";
+                $k = $prefix . "[]";
 
             if (is_array($v)) {
                 $r[] = $this->encodeToQueryString($v, $k, true);
             } else {
-                $r[] = urlencode($k)."=".urlencode($v);
+                $r[] = urlencode($k) . "=" . urlencode($v);
             }
         }
         $string = implode("&", $r);
-        BbvaApiConsole::debug('Query string: '.$string);
+        BbvaApiConsole::debug('Query string: ' . $string);
         return $string;
     }
 
-    private function encodeToJson($arr) {
+    private function encodeToJson($arr)
+    {
         $encoded = json_encode($arr);
         if (mb_detect_encoding($encoded, 'UTF-8', true) != 'UTF-8') {
             $encoded = utf8_encode($encoded);
         }
-        BbvaApiConsole::debug('JSON UTF8 string: '.$encoded);
+        BbvaApiConsole::debug('JSON UTF8 string: ' . $encoded);
         return $encoded;
     }
 
-    private function interpretResponse($responseBody, $responseCode) {
+    private function interpretResponse($responseBody, $responseCode)
+    {
         BbvaApiConsole::trace('BbvaApiConnector @interpretResponse');
         try {
             // return json as an array NOT an object
@@ -192,18 +199,19 @@ class BbvaApiConnector
                 $traslatedResponse = array();
             }
         } catch (Exception $e) {
-            throw new BbvaApiRequestError("Invalid response: ".$responseBody, $responseCode);
+            throw new BbvaApiRequestError("Invalid response: " . $responseBody, $responseCode);
         }
 
         if ($responseCode < 200 || $responseCode >= 300) {
-            BbvaApiConsole::error('Request finished with HTTP code '.$responseCode);
+            BbvaApiConsole::error('Request finished with HTTP code ' . $responseCode);
             $this->handleRequestError($responseBody, $responseCode, $traslatedResponse);
             return array();
         }
         return $traslatedResponse;
     }
 
-    private function handleRequestError($responseBody, $responseCode, $traslatedResponse) {
+    private function handleRequestError($responseBody, $responseCode, $traslatedResponse)
+    {
         if (!is_array($traslatedResponse) || !isset($traslatedResponse['error_code'])) {
             throw new BbvaApiRequestError("Invalid response body received from Bbva API Server");
         }
@@ -246,7 +254,8 @@ class BbvaApiConnector
         }
     }
 
-    private function handleCurlError($errorCode, $message) {
+    private function handleCurlError($errorCode, $message)
+    {
         switch ($errorCode) {
             case CURLE_COULDNT_CONNECT:
             case CURLE_COULDNT_RESOLVE_HOST:
@@ -257,23 +266,23 @@ class BbvaApiConnector
                 $msg = "Unexpected error connecting to Bbva";
         }
 
-        $msg .= " (Network error ".$errorCode.")";
+        $msg .= " (Network error " . $errorCode . ")";
         throw new BbvaApiConnectionError($msg);
     }
 
     // ---------------------------------------------------------
     // ------------------  PUBLIC FUNCTIONS  -------------------
 
-    public static function request($method, $url, $params = null) {
-        BbvaApiConsole::trace('BbvaApiConnector @request '.$url);
-
+    public static function request($method, $url, $params = null)
+    {
+        BbvaApiConsole::trace('BbvaApiConnector @request ' . $url);
         if (!$params) {
             $params = array();
         }
 
         $method = strtolower($method);
         if (!in_array($method, array('get', 'post', 'delete', 'put'))) {
-            throw new BbvaApiError("Invalid request method '".$method."'");
+            throw new BbvaApiError("Invalid request method '" . $method . "'");
         }
 
         $connector = self::getInstance();
