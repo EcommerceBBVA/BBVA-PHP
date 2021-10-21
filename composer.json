@@ -2,7 +2,7 @@
     "name": "bbva/sdk",
     "description": "This is a client implementing the payment services for Bbva at bbva.com",
     "type": "library",
-    "version": "1.0.0",
+    "version": "2.0.0",
     "minimum-stability": "stable",
     "license": "Apache-2.0",
     "authors": [
@@ -15,7 +15,8 @@
     "require": {
         "php": ">=5.2.1",
         "ext-curl": "*",
-        "ext-hash": "*"
+        "ext-hash": "*",
+      "ext-json": "*"
     },
     "require-dev": {
         "phpunit/phpunit": "4.8.*"
@@ -24,6 +25,8 @@
         "issues": "https://github.com/EcommerceBBVA/BBVA-PHP/issues"
     },
     "autoload": {
-        "psr-0": { "Bbva": "" }
+        "psr-4":{
+            "BBVA\\": "Bbva/"
+        }
     }
 }
