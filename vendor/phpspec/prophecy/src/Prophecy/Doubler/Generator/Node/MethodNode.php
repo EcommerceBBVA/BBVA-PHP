@@ -11,7 +11,6 @@
 
 namespace Prophecy\Doubler\Generator\Node;
 
-use Prophecy\Doubler\Generator\TypeHintReference;
 use Prophecy\Exception\InvalidArgumentException;
 
 /**
@@ -27,7 +26,6 @@ class MethodNode
     private $static = false;
     private $returnsReference = false;
     private $returnType;
-    private $nullableReturnType = false;
 
     /**
      * @var ArgumentNode[]
@@ -35,19 +33,13 @@ class MethodNode
     private $arguments = array();
 
     /**
-     * @var TypeHintReference
-     */
-    private $typeHintReference;
-
-    /**
      * @param string $name
      * @param string $code
      */
-    public function __construct($name, $code = null, TypeHintReference $typeHintReference = null)
+    public function __construct($name, $code = null)
     {
         $this->name = $name;
         $this->code = $code;
-        $this->typeHintReference = $typeHintReference ?: new TypeHintReference();
     }
 
     public function getVisibility()
@@ -119,43 +111,41 @@ class MethodNode
      */
     public function setReturnType($type = null)
     {
-        if ($type === '' || $type === null) {
-            $this->returnType = null;
-            return;
+        switch ($type) {
+            case '':
+                $this->returnType = null;
+                break;
+
+            case 'string';
+            case 'float':
+            case 'int':
+            case 'bool':
+            case 'array':
+            case 'callable':
+                $this->returnType = $type;
+                break;
+
+            case 'double':
+            case 'real':
+                $this->returnType = 'float';
+                break;
+
+            case 'boolean':
+                $this->returnType = 'bool';
+                break;
+
+            case 'integer':
+                $this->returnType = 'int';
+                break;
+
+            default:
+                $this->returnType = '\\' . ltrim($type, '\\');
         }
-        $typeMap = array(
-            'double' => 'float',
-            'real' => 'float',
-            'boolean' => 'bool',
-            'integer' => 'int',
-        );
-        if (isset($typeMap[$type])) {
-            $type = $typeMap[$type];
-        }
-        $this->returnType = $this->typeHintReference->isBuiltInReturnTypeHint($type) ?
-            $type :
-            '\\' . ltrim($type, '\\');
     }
 
     public function getReturnType()
     {
         return $this->returnType;
-    }
-
-    /**
-     * @param bool $bool
-     */
-    public function setNullableReturnType($bool = true)
-    {
-        $this->nullableReturnType = (bool) $bool;
-    }
-
-    /**
-     * @return bool
-     */
-    public function hasNullableReturnType()
-    {
-        return $this->nullableReturnType;
     }
 
     /**
@@ -180,19 +170,8 @@ class MethodNode
     {
         $this->code = sprintf(
             'return parent::%s(%s);', $this->getName(), implode(', ',
-                array_map(array($this, 'generateArgument'), $this->arguments)
+                array_map(function (ArgumentNode $arg) { return '$'.$arg->getName(); }, $this->arguments)
             )
         );
-    }
-
-    private function generateArgument(ArgumentNode $arg)
-    {
-        $argument = '$'.$arg->getName();
-
-        if ($arg->isVariadic()) {
-            $argument = '...'.$argument;
-        }
-
-        return $argument;
     }
 }

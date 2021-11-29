@@ -11,22 +11,10 @@ class ComposerStaticInitcbdb03fb748f9c9ebf4864a3595ca515
     );
 
     public static $prefixLengthsPsr4 = array (
-        'p' => 
-        array (
-            'phpDocumentor\\Reflection\\' => 25,
-        ),
-        'W' => 
-        array (
-            'Webmozart\\Assert\\' => 17,
-        ),
         'S' => 
         array (
             'Symfony\\Polyfill\\Ctype\\' => 23,
             'Symfony\\Component\\Yaml\\' => 23,
-        ),
-        'P' => 
-        array (
-            'Prophecy\\' => 9,
         ),
         'D' => 
         array (
@@ -34,21 +22,11 @@ class ComposerStaticInitcbdb03fb748f9c9ebf4864a3595ca515
         ),
         'B' => 
         array (
-            'BBVA\\' => 5,
+            'Bbva\\' => 5,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'phpDocumentor\\Reflection\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/phpdocumentor/reflection-common/src',
-            1 => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src',
-            2 => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src',
-        ),
-        'Webmozart\\Assert\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/webmozart/assert/src',
-        ),
         'Symfony\\Polyfill\\Ctype\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-ctype',
@@ -57,17 +35,30 @@ class ComposerStaticInitcbdb03fb748f9c9ebf4864a3595ca515
         array (
             0 => __DIR__ . '/..' . '/symfony/yaml',
         ),
-        'Prophecy\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/phpspec/prophecy/src/Prophecy',
-        ),
         'Doctrine\\Instantiator\\' => 
         array (
             0 => __DIR__ . '/..' . '/doctrine/instantiator/src/Doctrine/Instantiator',
         ),
-        'BBVA\\' => 
+        'Bbva\\' => 
         array (
             0 => __DIR__ . '/../..' . '/Bbva',
+        ),
+    );
+
+    public static $prefixesPsr0 = array (
+        'p' => 
+        array (
+            'phpDocumentor' => 
+            array (
+                0 => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src',
+            ),
+        ),
+        'P' => 
+        array (
+            'Prophecy\\' => 
+            array (
+                0 => __DIR__ . '/..' . '/phpspec/prophecy/src',
+            ),
         ),
     );
 
@@ -525,6 +516,7 @@ class ComposerStaticInitcbdb03fb748f9c9ebf4864a3595ca515
         return \Closure::bind(function () use ($loader) {
             $loader->prefixLengthsPsr4 = ComposerStaticInitcbdb03fb748f9c9ebf4864a3595ca515::$prefixLengthsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInitcbdb03fb748f9c9ebf4864a3595ca515::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInitcbdb03fb748f9c9ebf4864a3595ca515::$prefixesPsr0;
             $loader->classMap = ComposerStaticInitcbdb03fb748f9c9ebf4864a3595ca515::$classMap;
 
         }, null, ClassLoader::class);

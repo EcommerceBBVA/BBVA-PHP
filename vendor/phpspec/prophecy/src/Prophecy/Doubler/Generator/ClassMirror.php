@@ -32,7 +32,6 @@ class ClassMirror
         '__wakeup',
         '__toString',
         '__call',
-        '__invoke'
     );
 
     /**
@@ -110,7 +109,6 @@ class ClassMirror
             }
 
             if (true === $method->isFinal()) {
-                $node->addUnextendableMethod($method->getName());
                 continue;
             }
 
@@ -143,22 +141,8 @@ class ClassMirror
             $node->setReturnsReference();
         }
 
-        if (version_compare(PHP_VERSION, '7.0', '>=') && $method->hasReturnType()) {
-            $returnType = PHP_VERSION_ID >= 70100 ? $method->getReturnType()->getName() : (string) $method->getReturnType();
-            $returnTypeLower = strtolower($returnType);
-
-            if ('self' === $returnTypeLower) {
-                $returnType = $method->getDeclaringClass()->getName();
-            }
-            if ('parent' === $returnTypeLower) {
-                $returnType = $method->getDeclaringClass()->getParentClass()->getName();
-            }
-
-            $node->setReturnType($returnType);
-
-            if (version_compare(PHP_VERSION, '7.1', '>=') && $method->getReturnType()->allowsNull()) {
-                $node->setNullableReturnType(true);
-            }
+        if (version_compare(PHP_VERSION, '7.0', '>=') && true === $method->hasReturnType()) {
+            $node->setReturnType((string) $method->getReturnType());
         }
 
         if (is_array($params = $method->getParameters()) && count($params)) {
@@ -175,45 +159,21 @@ class ClassMirror
         $name = $parameter->getName() == '...' ? '__dot_dot_dot__' : $parameter->getName();
         $node = new Node\ArgumentNode($name);
 
-        $node->setTypeHint($this->getTypeHint($parameter));
+        $typeHint = $this->getTypeHint($parameter);
+        $node->setTypeHint($typeHint);
 
-        if ($this->isVariadic($parameter)) {
-            $node->setAsVariadic();
+        if (true === $parameter->isDefaultValueAvailable()) {
+            $node->setDefault($parameter->getDefaultValue());
+        } elseif (true === $parameter->isOptional()
+              || (true === $parameter->allowsNull() && $typeHint)) {
+            $node->setDefault(null);
         }
 
-        if ($this->hasDefaultValue($parameter)) {
-            $node->setDefault($this->getDefaultValue($parameter));
-        }
-
-        if ($parameter->isPassedByReference()) {
+        if (true === $parameter->isPassedByReference()) {
             $node->setAsPassedByReference();
         }
 
-        $node->setAsNullable($this->isNullable($parameter));
-
         $methodNode->addArgument($node);
-    }
-
-    private function hasDefaultValue(ReflectionParameter $parameter)
-    {
-        if ($this->isVariadic($parameter)) {
-            return false;
-        }
-
-        if ($parameter->isDefaultValueAvailable()) {
-            return true;
-        }
-
-        return $parameter->isOptional() || $this->isNullable($parameter);
-    }
-
-    private function getDefaultValue(ReflectionParameter $parameter)
-    {
-        if (!$parameter->isDefaultValueAvailable()) {
-            return null;
-        }
-
-        return $parameter->getDefaultValue();
     }
 
     private function getTypeHint(ReflectionParameter $parameter)
@@ -231,20 +191,10 @@ class ClassMirror
         }
 
         if (version_compare(PHP_VERSION, '7.0', '>=') && true === $parameter->hasType()) {
-            return PHP_VERSION_ID >= 70100 ? $parameter->getType()->getName() : (string) $parameter->getType();
+            return (string) $parameter->getType();
         }
 
         return null;
-    }
-
-    private function isVariadic(ReflectionParameter $parameter)
-    {
-        return PHP_VERSION_ID >= 50600 && $parameter->isVariadic();
-    }
-
-    private function isNullable(ReflectionParameter $parameter)
-    {
-        return $parameter->allowsNull() && null !== $this->getTypeHint($parameter);
     }
 
     private function getParameterClassName(ReflectionParameter $parameter)

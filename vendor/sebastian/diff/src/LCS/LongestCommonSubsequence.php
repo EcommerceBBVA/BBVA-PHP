@@ -1,6 +1,6 @@
 <?php
 /*
- * This file is part of sebastian/diff.
+ * This file is part of the Diff package.
  *
  * (c) Sebastian Bergmann <sebastian@phpunit.de>
  *
