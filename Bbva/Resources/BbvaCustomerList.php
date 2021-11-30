@@ -1,6 +1,8 @@
 <?php
 
-namespace BBVA\Resources;
+namespace Bbva\Resources;
+
+use Bbva\Data\BbvaApiDerivedResource;
 
 class BbvaCustomerList extends BbvaApiDerivedResource
 {

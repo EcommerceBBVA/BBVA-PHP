@@ -1,13 +1,6 @@
 <?php
 
-/**
- * Bbva API v1 Client for PHP (version 1.0.0)
- *
- * Copyright © BBVA, S.A., Institución de Banca Múltiple, Grupo Financiero BBVA All rights reserved.
- * http://www.bbva.com/
- * bbva@eglobal.com.mx
- */
-namespace BBVA\Data;
+namespace Bbva\Data;
 
 class BbvaApiConnector
 {
@@ -33,7 +26,7 @@ class BbvaApiConnector
 
     private function _request($method, $url, $params)
     {
-        if (!class_exists('BBVA\\Data\\Bbva')) {
+        if (!class_exists('Bbva\\Data\\Bbva')) {
             throw new BbvaApiError("Library install error, there are some missing classes");
         }
         BbvaApiConsole::trace('BbvaApiConnector @_request');

@@ -1,8 +1,8 @@
 <?php
 
-namespace BBVA\Resources;
+namespace Bbva\Resources;
 
-use BBVA\Data\BbvaApiDerivedResource;
+use Bbva\Data\BbvaApiDerivedResource;
 
 class BbvaTokenList extends BbvaApiDerivedResource
 {

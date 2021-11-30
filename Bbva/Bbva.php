@@ -1,11 +1,4 @@
 <?php
-/**
- * Bbva API v1 Client for PHP (version 1.0.0)
- *
- * Copyright © BBVA, S.A., Institución de Banca Múltiple, Grupo Financiero BBVA All rights reserved.
- * http://www.bbva.com/
- * bbva@eglobal.com.mx
- */
 
 if (!function_exists('curl_init')) {
 	throw new Exception('CURL PHP extension is required to run Bbva client.');
@@ -26,6 +19,10 @@ require(dirname(__FILE__) . '/Data/BbvaApi.php');
 
 require(dirname(__FILE__) . '/Resources/BbvaCapture.php');
 require(dirname(__FILE__) . '/Resources/BbvaCharge.php');
+require(dirname(__FILE__) . '/Resources/BbvaChargeList.php');
+require(dirname(__FILE__) . '/Resources/BbvaCustomer.php');
+require(dirname(__FILE__) . '/Resources/BbvaCustomerList.php');
 require(dirname(__FILE__) . '/Resources/BbvaRefund.php');
 require(dirname(__FILE__) . '/Resources/BbvaToken.php');
+require(dirname(__FILE__) . '/Resources/BbvaTokenList.php.php');
 ?>

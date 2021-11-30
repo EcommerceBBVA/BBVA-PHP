@@ -1,7 +1,7 @@
 <?php
-namespace BBVA\Resources;
+namespace Bbva\Resources;
 
-use BBVA\Data\BbvaApiResourceBase;
+use Bbva\Data\BbvaApiResourceBase;
 
 class BbvaCustomer extends BbvaApiResourceBase {
 	protected $status;
