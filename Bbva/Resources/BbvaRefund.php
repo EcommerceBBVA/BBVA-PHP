@@ -1,15 +1,9 @@
 <?php
-/**
- * Bbva API v1 Client for PHP (version 1.0.0)
- *
- * Copyright © BBVA, S.A., Institución de Banca Múltiple, Grupo Financiero BBVA All rights reserved.
- * plataformas.especiales.mx@bbva.com
- */
 
-namespace BBVA\Resources;
+namespace Bbva\Resources;
 
 
-use BBVA\Data\BbvaApiResourceBase;
+use Bbva\Data\BbvaApiResourceBase;
 
 class BbvaRefund extends BbvaApiResourceBase {
     protected function getResourceUrlName($p = true){

@@ -1,6 +1,6 @@
 <?php
 
-namespace BBVA\Data;
+namespace Bbva\Data;
 
 class BbvaApiRequestError extends BbvaApiError
 {

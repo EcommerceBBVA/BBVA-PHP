@@ -1,15 +1,7 @@
 <?php
 
-/**
- * Bbva API v1 Client for PHP (version 1.0.3)
- *
- * Copyright © BBVA, S.A., Institución de Banca Múltiple, Grupo Financiero BBVA All rights reserved.
- * http://www.bbva.mx/
- * bbva@eglobal.com.mx
- */
-namespace BBVA\Data;
+namespace Bbva\Data;
 
-// ----------------------------------------------------------------------------
 class BbvaApi extends BbvaApiResourceBase
 {
 

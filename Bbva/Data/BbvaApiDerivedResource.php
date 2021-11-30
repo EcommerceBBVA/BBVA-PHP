@@ -6,7 +6,7 @@
  * http://www.bbva.mx/
  * soporte@bbva.mx
  */
-namespace BBVA\Data;
+namespace Bbva\Data;
 
 class BbvaApiDerivedResource extends BbvaApiResourceBase
 {
@@ -14,7 +14,7 @@ class BbvaApiDerivedResource extends BbvaApiResourceBase
 
     protected static function getInstance($resourceName, $p = null)
     {
-        if (class_exists($resourceName . 'List', false)) {
+        if (class_exists($resourceName . 'List')) {
             $resource = $resourceName . 'List';
             return new $resource($resourceName);
         }

@@ -1,14 +1,6 @@
 <?php
 
-/**
- * Bbva API v1 Client for PHP (version 1.0.0)
- *
- * Copyright © BBVA, S.A., Institución de Banca Múltiple, Grupo Financiero BBVA All rights reserved.
- * http://www.bbva.com/
- * bbva@eglobal.com.mx
- */
-
-namespace BBVA\Data;
+namespace Bbva\Data;
 
 abstract class BbvaApiResourceBase
 {
@@ -20,13 +12,14 @@ abstract class BbvaApiResourceBase
     protected $noSerializableData;
     protected $derivedResources;
 
-    protected function __construct($resourceName, $params = array()) {
+    protected function __construct($resourceName, $params = array())
+    {
         $this->resourceName = $resourceName;
         $this->serializableData = array();
         $this->noSerializableData = array();
 
         if (!is_array($params)) {
-            throw new BbvaApiError("Invalid parameter type detected when instantiating an Bbva resource (passed '".gettype($params)."', array expected)");
+            throw new BbvaApiError("Invalid parameter type detected when instantiating an Bbva resource (passed '" . gettype($params) . "', array expected)");
         }
 
         foreach ($params as $key => $value) {
@@ -43,7 +36,7 @@ abstract class BbvaApiResourceBase
 
         if ($derived = $this->derivedResources) {
             foreach ($derived as $k => $v) {
-                $name = strtolower($k).'s';
+                $name = strtolower($k) . 's';
                 $this->derivedResources[$name] = $this->processAttribute($k, $v);
 
                 // unsets the original attribute
@@ -52,10 +45,11 @@ abstract class BbvaApiResourceBase
         }
     }
 
-    protected static function getInstance($resourceName, $props = null) {
-        BbvaApiConsole::trace('BbvaApiResourceBase @getInstance > '.$resourceName);
+    protected static function getInstance($resourceName, $props = null)
+    {
+        BbvaApiConsole::trace('BbvaApiResourceBase @getInstance > ' . $resourceName);
         if (!class_exists($resourceName)) {
-            throw new BbvaApiError("Invalid Bbva resource type (class resource '".$resourceName."' is invalid)");
+            throw new BbvaApiError("Invalid Bbva resource type (class resource '" . $resourceName . "' is invalid)");
         }
         if (is_string($props)) {
             $props = array('id' => $props);
@@ -69,7 +63,8 @@ abstract class BbvaApiResourceBase
     // ---------------------------------------------------------
     // ------------------  PRIVATE FUNCTIONS  ------------------
 
-    private function isList($var) {
+    private function isList($var)
+    {
         if (!is_array($var))
             return false;
 
@@ -80,22 +75,23 @@ abstract class BbvaApiResourceBase
         return true;
     }
 
-    private function processAttribute($k, $v) {
-        BbvaApiConsole::trace('BbvaApiResourceBase @processAttribute > '.$k);
+    private function processAttribute($k, $v)
+    {
+        BbvaApiConsole::trace('BbvaApiResourceBase @processAttribute > ' . $k);
         $value = null;
 
         $resourceName = $this->getResourceName($k);
         if ($this->isResource($resourceName)) {
             // check is its a resource list
             if ($this->isList($v)) {
-                $list = BbvaApiDerivedResource::getInstance("BBVA\\Resources\\". $resourceName);
+                $list = BbvaApiDerivedResource::getInstance("Bbva\\Resources\\" . $resourceName);
                 $list->parent = $this;
                 foreach ($v as $index => $objData) {
                     $list->add($objData);
                 }
                 $value = $list;
             } else {
-                $resource = self::getInstance("BBVA\\Resources\\".$resourceName);
+                $resource = self::getInstance("Bbva\\Resources\\" . $resourceName);
                 $resource->parent = $this;
                 $resource->refreshData($v);
                 $value = $resource;
@@ -120,22 +116,25 @@ abstract class BbvaApiResourceBase
         return $value;
     }
 
-    private function getResourceName($name) {
+    private function getResourceName($name)
+    {
         BbvaApiConsole::trace('BbvaApiResourceBase @getResourceName');
         if (substr($name, 0, strlen('Bbva')) == 'Bbva') {
             return $name;
         }
-        return 'Bbva' .ucfirst($name);
+        return 'Bbva' . ucfirst($name);
     }
 
-    private function isResource($resourceName) {
-        BbvaApiConsole::trace('BbvaApiResourceBase @isResource > '.$resourceName);
+    private function isResource($resourceName)
+    {
+        BbvaApiConsole::trace('BbvaApiResourceBase @isResource > ' . $resourceName);
 // 		$resourceName = $this->getResourceName($name);
 
-        return class_exists("BBVA\\Resources\\".$resourceName);
+        return class_exists("Bbva\\Resources\\" . $resourceName);
     }
 
-    private function registerInParent($resource) {
+    private function registerInParent($resource)
+    {
         BbvaApiConsole::trace('BbvaApiResourceBase @registerInParent');
         $parent = $this->parent;
         if ($parent instanceof BbvaApiDerivedResource) {
@@ -154,15 +153,20 @@ abstract class BbvaApiResourceBase
         }
     }
 
-    private function getSerializeParameters() {
+    private function getSerializeParameters()
+    {
         BbvaApiConsole::trace('BbvaApiResourceBase @getSerializeParameters');
         return $this->serializableData;
     }
 
-    private function getResource($resourceName) {
-        foreach ($this->derivedResources as $resource) {
-            if ($resource->resourceName == $resourceName) {
-                return $resource;
+    private function getResource($resourceName)
+    {
+        if ($this->derivedResources !== null) {
+
+            foreach ($this->derivedResources as $resource) {
+                if ($resource->resourceName == $resourceName) {
+                    return $resource;
+                }
             }
         }
         return false;
@@ -171,7 +175,8 @@ abstract class BbvaApiResourceBase
     // ---------------------------------------------------------
     // -----------------  PROTECTED FUNCTIONS  -----------------
 
-    protected function refreshData($data) {
+    protected function refreshData($data)
+    {
         BbvaApiConsole::trace('BbvaApiResourceBase @refreshData');
 
         if (!$data) {
@@ -224,33 +229,37 @@ abstract class BbvaApiResourceBase
         return $this;
     }
 
-    protected function getResourceUrlName($pluralize = true) {
+    protected function getResourceUrlName($pluralize = true)
+    {
         $ResourceUrl = explode('\\', $this->resourceName);
-        $class = $ResourceUrl[sizeof($ResourceUrl)-1];
+        $class = $ResourceUrl[sizeof($ResourceUrl) - 1];
         if (substr($class, 0, strlen('Bbva')) == 'Bbva') {
             $class = substr($class, strlen('Bbva'));
         }
         if (substr($class, -1 * strlen('List')) == 'List') {
             $class = substr($class, 0, -1 * strlen('List'));
         }
-        return strtolower(urlencode($class)).($pluralize ? 's' : '');
+        return strtolower(urlencode($class)) . ($pluralize ? 's' : '');
     }
 
-    protected function validateParams($params) {
+    protected function validateParams($params)
+    {
         BbvaApiConsole::trace('BbvaApiResourceBase @validateParams');
         if (!is_array($params)) {
-            throw new BbvaApiRequestError("Invalid parameters type detected (type '".gettype($params)."' received, Array expected)");
+            throw new BbvaApiRequestError("Invalid parameters type detected (type '" . gettype($params) . "' received, Array expected)");
         }
     }
 
-    protected function validateId($id) {
+    protected function validateId($id)
+    {
         BbvaApiConsole::trace('BbvaApiResourceBase @validateId');
         if (!is_string($id) || !preg_match('/^[a-z][a-z0-9]{0,20}$/i', $id)) {
-            throw new BbvaApiRequestError("Invalid ID detected (value '".$id."' received, alphanumeric string not longer than 20 characters expected)");
+            throw new BbvaApiRequestError("Invalid ID detected (value '" . $id . "' received, alphanumeric string not longer than 20 characters expected)");
         }
     }
 
-    protected function _create($resourceName, $params, $props = null) {
+    protected function _create($resourceName, $params, $props = null)
+    {
 
         $resource = self::getInstance($resourceName, $props);
         $resource->validateParams($params);
@@ -260,7 +269,8 @@ abstract class BbvaApiResourceBase
         return $resource->refreshData($response);
     }
 
-    protected function _retrieve($resourceName, $id, $props = null) {
+    protected function _retrieve($resourceName, $id, $props = null)
+    {
         if ($props && is_array($props)) {
             $props['id'] = $id;
         } else {
@@ -274,7 +284,8 @@ abstract class BbvaApiResourceBase
         return $resource->refreshData($response);
     }
 
-    protected function _find($resourceName, $params, $props = null) {
+    protected function _find($resourceName, $params, $props = null)
+    {
 
         $resource = self::getInstance($resourceName, $props);
         $resource->validateParams($params);
@@ -291,7 +302,8 @@ abstract class BbvaApiResourceBase
         return $list;
     }
 
-    protected function _update() {
+    protected function _update()
+    {
         $params = $this->getSerializeParameters();
 
         if (count($params)) {
@@ -300,14 +312,16 @@ abstract class BbvaApiResourceBase
         }
     }
 
-    protected function _updateCharge($params) {
+    protected function _updateCharge($params)
+    {
         if (count($params)) {
             $response = BbvaApiConnector::request('put', $this->getResourceUrl(), $params);
             return $this->refreshData($response);
         }
     }
 
-    protected function _delete() {
+    protected function _delete()
+    {
         BbvaApiConnector::request('delete', $this->getUrl(), null);
 
         // remove from list, if parent is a list
@@ -317,8 +331,9 @@ abstract class BbvaApiResourceBase
         //$this->empty(); // TODO
     }
 
-    protected function _getAttributes($param) {
-        $url = $this->getUrl().'/'.$param;
+    protected function _getAttributes($param)
+    {
+        $url = $this->getUrl() . '/' . $param;
         $response = BbvaApiConnector::request('get', $url, null);
         return json_decode(json_encode($response));
     }
@@ -326,32 +341,34 @@ abstract class BbvaApiResourceBase
     // ---------------------------------------------------------
     // ------------------  PUBLIC FUNCTIONS  -------------------
 
-    public function getUrl() { // $includeId = true
-        BbvaApiConsole::trace('BbvaApiResourceBase @getUrl > class/parent: '.get_class($this).'/'.($this->parent ? 'true' : 'false'));
+    public function getUrl()
+    { // $includeId = true
+        BbvaApiConsole::trace('BbvaApiResourceBase @getUrl > class/parent: ' . get_class($this) . '/' . ($this->parent ? 'true' : 'false'));
         $parentUrl = '';
 
         if ($this->parent) {
             $parentUrl = $this->parent->getUrl();
             if ($this->parent instanceof BbvaApiDerivedResource) {
-                return $parentUrl.($this->id ? '/'.$this->id : '');
+                return $parentUrl . ($this->id ? '/' . $this->id : '');
             }
         }
         $resourceUrlName = $this->getResourceUrlName();
-        return ($parentUrl != '' ? $parentUrl : '').($resourceUrlName != '' ? '/'.$resourceUrlName : '').($this->id ? '/'.$this->id : '');
+        return ($parentUrl != '' ? $parentUrl : '') . ($resourceUrlName != '' ? '/' . $resourceUrlName : '') . ($this->id ? '/' . $this->id : '');
     }
 
     // ---------------------------------------------------------
     // --------------------  MAGIC METHODS  --------------------
 
-    public function __set($key, $value) {
-        BbvaApiConsole::trace('BbvaApiResourceBase @__set > '.$key.' = '.$value);
+    public function __set($key, $value)
+    {
+        BbvaApiConsole::trace('BbvaApiResourceBase @__set > ' . $key . ' = ' . $value);
         if ($value === '' || !$value) {
-            error_log("[BANCOMER Notice] The property '".$key."' will be set to en empty string which will be intepreted ad a NULL in request");
+            error_log("[BANCOMER Notice] The property '" . $key . "' will be set to en empty string which will be intepreted ad a NULL in request");
         }
         if (isset($this->$key) && is_array($value)) {
             // TODO: handle this properly, eg: interpret the array as an object and replace value as
             // $this->$key->replaceWith($value);
-            throw new BbvaApiError("The property '".$key."' cannot be assigned directly with an array");
+            throw new BbvaApiError("The property '" . $key . "' cannot be assigned directly with an array");
             //} else if (property_exists($this, $key)) {
             //	$this->$key = $value;
         } else if (isset($this->serializableData[$key])) {
@@ -361,7 +378,8 @@ abstract class BbvaApiResourceBase
         }
     }
 
-    public function __get($key) {
+    public function __get($key)
+    {
         if (property_exists($this, $key)) {
             return $this->$key;
         } else if (array_key_exists($key, $this->serializableData)) {
