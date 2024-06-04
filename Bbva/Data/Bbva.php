@@ -11,13 +11,14 @@ class Bbva
     private static $apiEndpoint = 'https://api.ecommercebbva.com/v1';
     private static $apiSandboxEndpoint = 'https://sand-api.ecommercebbva.com/v1';
     private static $sandboxMode = true;
+    private static $publicIp;
 
     public function __construct()
     {
 
     }
 
-    public static function getInstance($id = '', $apiKey = '')
+    public static function getInstance($id = '', $apiKey = '', $publicIp)
     {
         if ($id != '') {
             self::setId($id);
@@ -25,6 +26,10 @@ class Bbva
         if ($apiKey != '') {
             self::setApiKey($apiKey);
         }
+        if(!is_null($publicIp)){
+            self::setPublicIp($publicIp);
+        }
+
         $instance = BbvaApi::getInstance(null);
         return $instance;
     }
@@ -59,6 +64,18 @@ class Bbva
             $id = getenv('MERCHANT_ID');
         }
         return $id;
+    }
+
+    public static function setPublicIp($publicIp = null)
+    {
+        if (!is_null($publicIp)) {
+            self::$publicIp = $publicIp;
+        }
+    }
+
+    public static function getPublicIp() {
+        return self::$publicIp;
+
     }
 
     public static function getSandboxMode()
