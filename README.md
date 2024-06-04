@@ -73,13 +73,14 @@ Private key. There are three options:
 ```php
 Bbva::setId('moiep6umtcnanql3jrxp');
 Bbva::setApiKey('***REMOVED***');
+Bbva::setPublicIp('127.0.0.1'); //Tu ip publica
 ```
 	
   - Pass Merchant ID and Private Key as parameters to the method **Bbva::getInstance()**,
     which is the instance generator:
     
 ```php
-$bbva = Bbva::getInstance('moiep6umtcnanql3jrxp', '***REMOVED***');
+$bbva = Bbva::getInstance('moiep6umtcnanql3jrxp', '***REMOVED***', '127.0.0.1');
 ```
 
   - Configure the Marchant ID and the Private Key as well, as environment 
@@ -119,7 +120,7 @@ Once configured the library, you can use it to interact with Bbva API
 services. The first step is get an instance with the generator:
 
 ````php
-$bbva = Bbva::getInstance('mptdggroasfcmqs8plpy', '***REMOVED***');
+$bbva = Bbva::getInstance('mptdggroasfcmqs8plpy', '***REMOVED***', '127.0.0.1');
 ````
 
 In this example **$bbva** will be an instance of a merchant (root), wich 
@@ -258,7 +259,7 @@ Examples
 
 Add a new customer to a merchant:
 ````php
-$bbva = Bbva::getInstance('mptdggroasfcmqs8plpy', '***REMOVED***');
+$bbva = Bbva::getInstance('mptdggroasfcmqs8plpy', '***REMOVED***', '127.0.0.1');
 
 $customerData = array(
 	'name' => 'Teofilo',
@@ -304,7 +305,7 @@ $token = $bbva->tokens->add($tokenData);
 
 Get a token:
 ````php
-$bbva = Bbva::getInstance('mptdggroasfcmqs8plpy', '***REMOVED***');
+$bbva = Bbva::getInstance('mptdggroasfcmqs8plpy', '***REMOVED***', '127.0.0.1');
 
 $token = $bbva->tokens->get('k9pn8qtsvr7k7gxoq1r5');
 ````
@@ -315,7 +316,7 @@ $token = $bbva->tokens->get('k9pn8qtsvr7k7gxoq1r5');
 
 Make a charge on a merchant:
 ````php
-$bbva = Bbva::getInstance('mptdggroasfcmqs8plpy', '***REMOVED***');
+$bbva = Bbva::getInstance('mptdggroasfcmqs8plpy', '***REMOVED***', '127.0.0.1');
 
 $chargeData = array(
 	'affiliation_bbva' => '781500',
@@ -344,14 +345,14 @@ $charge = $bbva->charges->create($chargeData);
 	
 Get a charge:
 ````php
-$bbva = Bbva::getInstance('mptdggroasfcmqs8plpy', '***REMOVED***');
+$bbva = Bbva::getInstance('mptdggroasfcmqs8plpy', '***REMOVED***', '127.0.0.1');
 
 $charge = $bbva->charges->get('tvyfwyfooqsmfnaprsuk');
 ````
 	
 Make a capture:
 ````php
-$bbva = Bbva::getInstance('mptdggroasfcmqs8plpy', '***REMOVED***');
+$bbva = Bbva::getInstance('mptdggroasfcmqs8plpy', '***REMOVED***', '127.0.0.1');
 
 $captureData = array('amount' => 150.00 );
 
@@ -361,7 +362,7 @@ $charge->capture($captureData);
 	
 Make a refund:
 ````php
-$bbva = Bbva::getInstance('mptdggroasfcmqs8plpy', '***REMOVED***');
+$bbva = Bbva::getInstance('mptdggroasfcmqs8plpy', '***REMOVED***', '127.0.0.1');
 
 $refundData = array('description' => 'Devolución' );
 

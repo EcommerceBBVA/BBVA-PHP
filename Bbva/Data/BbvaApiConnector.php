@@ -45,6 +45,13 @@ class BbvaApiConnector
             throw new BbvaApiAuthError("Invalid Private Key '" . $myApiKey . "'");
         }
 
+        $publicIp = Bbva::getPublicIp();
+        if(is_null($publicIp)){
+            throw new BbvaApiAuthError("Empty or no public ip provided");
+        } else if (!preg_match("/^([0-9]{1,3}\.){3}[0-9]{1,3}$/", $publicIp)){
+            throw new BbvaApiAuthError("Invalid public ip '" . $publicIp . "'");
+        }
+
         $absUrl = Bbva::getEndpointUrl();
         if (!$absUrl) {
             throw new BbvaApiConnectionError("No API endpoint set");
@@ -53,6 +60,8 @@ class BbvaApiConnector
 
         //$params = self::_encodeObjects($params);
         $headers = array('User-Agent: BbvaPhp/v1');
+        array_push($headers, 'X-Forwarded-For: ' . $publicIp);
+
 
         list($rbody, $rcode) = $this->_curlRequest($method, $absUrl, $headers, $params, $myApiKey);
         return $this->interpretResponse($rbody, $rcode);
