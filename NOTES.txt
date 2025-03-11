@@ -46,7 +46,7 @@ opciones:
      a ambos métodos:
      
 	 Bbva::setId('moiep6umtcnanql3jrxp');
-	 Bbva::setApiKey('***REMOVED***');
+	 Bbva::setApiKey('sk_xxxxxxxxxxxxxxxxxxxxxxxxx');
 	
   2. Pasar ambos datos como parámetros al método Bbva::getInstance().
      Este método es muy similar al anterior, solamente que ambos parámetros se
@@ -54,7 +54,7 @@ opciones:
      métodos es Merchant ID y API Key, respectivamente 
 
 	 $bbva = Bbva::getInstance('moiep6umtcnanql3jrxp',
-	                                 '***REMOVED***');
+	                                 'sk_xxxxxxxxxxxxxxxxxxxxxxxxx');
 	
   3. Configurar ambos datos como variables de ambiente. Este método permite la 
      configuración de ambos datos pero a nivel de ambiente, lo cual tiene sus 
